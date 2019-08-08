@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
-            Log.e(TAG,"Permission is not granted");
+            Log.e(TAG, "Permission is not granted");
         }
 
 
@@ -67,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 final long position = (long) (Math.random() * duration);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     mMediaPlayer.seekTo(position, MediaPlayer.SEEK_PREVIOUS_SYNC);
-                }
-                else{
+                } else {
                     mMediaPlayer.seekTo((int) position);
                 }
             }
