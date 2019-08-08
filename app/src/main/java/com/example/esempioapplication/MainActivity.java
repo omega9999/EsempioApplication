@@ -6,12 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
         this.setContentView(R.layout.activity_main);
 
         this.mStartScan = this.findViewById(R.id.scan_button);
+        this.mPlay = this.findViewById(R.id.play);
+        this.mPause = this.findViewById(R.id.pause);
+        this.mGoToRandom = this.findViewById(R.id.goto_random);
+
         this.mStartScan.setOnClickListener(new StartScanListener());
         this.mWifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
@@ -39,11 +45,41 @@ public class MainActivity extends AppCompatActivity {
             // Permission is not granted
             Log.e(TAG,"Permission is not granted");
         }
+
+
+        this.mMediaPlayer = MediaPlayer.create(this, R.raw.inno_nazionale_italia);
+        this.mPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMediaPlayer.start();
+            }
+        });
+        this.mPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMediaPlayer.pause();
+            }
+        });
+        this.mGoToRandom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final long duration = mMediaPlayer.getDuration();
+                final long position = (long) (Math.random() * duration);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    mMediaPlayer.seekTo(position, MediaPlayer.SEEK_PREVIOUS_SYNC);
+                }
+                else{
+                    mMediaPlayer.seekTo((int) position);
+                }
+            }
+        });
+
     }
 
     @Override
     protected void onDestroy() {
         this.unregisterReceiver(this.mWifiReceiver);
+        this.mMediaPlayer.release();
         super.onDestroy();
     }
 
@@ -93,6 +129,11 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver mWifiReceiver;
     private Button mStartScan;
     private WifiManager mWifiManager;
+    private MediaPlayer mMediaPlayer;
+
+    private Button mPlay;
+    private Button mPause;
+    private Button mGoToRandom;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 }
