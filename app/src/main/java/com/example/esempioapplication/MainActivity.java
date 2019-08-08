@@ -48,28 +48,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         this.mMediaPlayer = MediaPlayer.create(this, R.raw.inno_nazionale_italia);
-        this.mPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMediaPlayer.start();
-            }
-        });
-        this.mPause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMediaPlayer.pause();
-            }
-        });
-        this.mGoToRandom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final long duration = mMediaPlayer.getDuration();
-                final long position = (long) (Math.random() * duration);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    mMediaPlayer.seekTo(position, MediaPlayer.SEEK_PREVIOUS_SYNC);
-                } else {
-                    mMediaPlayer.seekTo((int) position);
-                }
+        this.mPlay.setOnClickListener(v -> mMediaPlayer.start());
+        this.mPause.setOnClickListener(v -> mMediaPlayer.pause());
+        this.mGoToRandom.setOnClickListener(v -> {
+            final long duration = mMediaPlayer.getDuration();
+            final long position = (long) (Math.random() * duration);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                mMediaPlayer.seekTo(position, MediaPlayer.SEEK_PREVIOUS_SYNC);
+            } else {
+                mMediaPlayer.seekTo((int) position);
             }
         });
 
