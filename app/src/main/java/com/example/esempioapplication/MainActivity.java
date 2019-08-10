@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -48,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         this.mMediaPlayer = MediaPlayer.create(this, R.raw.inno_nazionale_italia);
+        this.mMediaPlayer.setOnCompletionListener(mp -> {
+            Toast.makeText(MainActivity.this, "Finish play", Toast.LENGTH_SHORT).show();
+        });
         this.mPlay.setOnClickListener(v -> mMediaPlayer.start());
         this.mPause.setOnClickListener(v -> mMediaPlayer.pause());
         this.mGoToRandom.setOnClickListener(v -> {
