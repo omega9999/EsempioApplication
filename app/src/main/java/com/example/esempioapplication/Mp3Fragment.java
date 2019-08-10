@@ -1,23 +1,25 @@
 package com.example.esempioapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.concurrent.TimeUnit;
 
 /**
  * http://www.tutorialspoint.com/android/android_mediaplayer.htm
  */
-public class Mp3Activity extends AppCompatActivity {
+public class Mp3Fragment extends Fragment {
 
     private Button b1, b2, b3, b4;
     private ImageView iv;
@@ -34,29 +36,29 @@ public class Mp3Activity extends AppCompatActivity {
 
     public static int oneTimeOnly = 0;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mp3);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.activity_mp3, container, false);
 
-        b1 = findViewById(R.id.button);
-        b2 = findViewById(R.id.button2);
-        b3 = findViewById(R.id.button3);
-        b4 = findViewById(R.id.button4);
-        iv = findViewById(R.id.imageView);
 
-        tx1 = findViewById(R.id.textView2);
-        tx2 = findViewById(R.id.textView3);
-        tx3 = findViewById(R.id.textView4);
-        tx3.setText(R.string.song_name);
+        b1 = root.findViewById(R.id.button);
+        b2 = root.findViewById(R.id.button2);
+        b3 = root.findViewById(R.id.button3);
+        b4 = root.findViewById(R.id.button4);
+        iv = root.findViewById(R.id.imageView);
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.inno_nazionale_italia);
-        seekbar = findViewById(R.id.seekBar);
+        seekbar = root.findViewById(R.id.seekBar);
         seekbar.setClickable(false);
+
+        tx1 = root.findViewById(R.id.textView2);
+        tx2 = root.findViewById(R.id.textView3);
+        tx3 = root.findViewById(R.id.textView4);
+        tx3.setText(R.string.song_name);
         b2.setEnabled(false);
 
+
+
         b3.setOnClickListener(v -> {
-            Toast.makeText(getApplicationContext(), "Playing sound", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Playing sound", Toast.LENGTH_SHORT).show();
             mediaPlayer.start();
 
             finalTime = mediaPlayer.getDuration();
@@ -88,7 +90,7 @@ public class Mp3Activity extends AppCompatActivity {
         });
 
         b2.setOnClickListener(v -> {
-            Toast.makeText(getApplicationContext(), "Pausing sound", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Pausing sound", Toast.LENGTH_SHORT).show();
             mediaPlayer.pause();
             b2.setEnabled(false);
             b3.setEnabled(true);
@@ -100,9 +102,9 @@ public class Mp3Activity extends AppCompatActivity {
             if ((temp + forwardTime) <= finalTime) {
                 startTime = startTime + forwardTime;
                 mediaPlayer.seekTo((int) startTime);
-                Toast.makeText(getApplicationContext(), "You have Jumped forward 5 seconds", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "You have Jumped forward 5 seconds", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getApplicationContext(), "Cannot jump forward 5 seconds", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Cannot jump forward 5 seconds", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -112,11 +114,19 @@ public class Mp3Activity extends AppCompatActivity {
             if ((temp - backwardTime) > 0) {
                 startTime = startTime - backwardTime;
                 mediaPlayer.seekTo((int) startTime);
-                Toast.makeText(getApplicationContext(), "You have Jumped backward 5 seconds", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "You have Jumped backward 5 seconds", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getApplicationContext(), "Cannot jump backward 5 seconds", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Cannot jump backward 5 seconds", Toast.LENGTH_SHORT).show();
             }
         });
+
+        return root;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mediaPlayer = MediaPlayer.create(getActivity(), R.raw.inno_nazionale_italia);
     }
 
     private Runnable UpdateSongTime = new Runnable() {
