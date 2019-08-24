@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
             this.mFragments.add(new MainFragment());
             this.mFragments.add(new Mp3Fragment());
             this.mFragments.add(new ScrollingFragment());
+            this.mFragments.add(new GradientFragment());
         }
 
         @Override
