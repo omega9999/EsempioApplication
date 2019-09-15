@@ -1,6 +1,7 @@
 package com.example.esempioapplication;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +25,18 @@ public class MainActivity extends AppCompatActivity {
         SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager());
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);
+
+        myTimer = new MyTimer(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            myTimer.close();
+        } catch (IOException e) {
+            Log.e(TAG,"Problem stop timer",e);
+        }
+        super.onDestroy();
     }
 
     private class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
@@ -50,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
         private final ArrayList<Fragment> mFragments;
     }
+
+    private MyTimer myTimer;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 }
