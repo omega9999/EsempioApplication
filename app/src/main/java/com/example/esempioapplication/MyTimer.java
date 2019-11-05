@@ -2,10 +2,8 @@ package com.example.esempioapplication;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Build;
 import android.os.SystemClock;
 import android.util.Log;
@@ -36,6 +34,7 @@ public class MyTimer implements Closeable {
         alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, 10 * 1000, alarmIntent);
         //alarmMgr.setAndAllowWhileIdle();
 
+        // TODO replace with java.util.Timer
         AlarmManager.AlarmClockInfo info = alarmMgr.getNextAlarmClock();
         Log.w(TAG,"info = " + new Date(info.getTriggerTime()));
 

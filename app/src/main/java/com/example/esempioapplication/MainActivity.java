@@ -10,6 +10,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.esempioapplication.bluetooth.BluetoothFragment;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             this.mFragments = new ArrayList<>();
 
             this.mFragments.add(new MainFragment());
+            this.mFragments.add(new BluetoothFragment());
             this.mFragments.add(new Mp3Fragment());
             this.mFragments.add(new ScrollingFragment());
             this.mFragments.add(new GradientFragment());
